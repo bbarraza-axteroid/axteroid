@@ -11,7 +11,8 @@ Integración con app Piriod
     'website': 'https://www.opens.cl',
     'depends': ['account','l10n_cl','l10n_latam_invoice_document'],
     'data': [
-        'views/res_company_view.xml'
+        'views/res_company_view.xml',
+        'views/res_config_view.xml'
         ],
     'active': True,
     'installable': True,

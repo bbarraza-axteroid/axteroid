@@ -13,7 +13,6 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     piriod_id = fields.Char(string='ID de la factura piriod')
-    piriod_pdf_invoice = fields.Binary(string='PDF de la factura piriod')
 
     def get_piriod_invoice(self, piriod_invoice_id):
         companys = self.env['res.company'].sudo().search([])
@@ -25,8 +24,14 @@ class AccountMove(models.Model):
             'Authorization': f'Token {token}',
             'x-simple-workspace': f'{organization}'
         }
-        _logger.info(token)
         r = requests.get(f'{api}/invoices/{piriod_invoice_id}/', headers=credentials)
+        invoice_json = r.json()
+        log = {
+            'name': "Datos factura",
+            'url_used': f'{api}/invoices/{piriod_invoice_id}/',
+            'JSON_entrada': invoice_json
+        }
+        self.env['piriod.webhook.log'].sudo().create(log)
         return r
 
     def get_piriod_invoice_pdf(self, piriod_invoice_id):
@@ -40,6 +45,13 @@ class AccountMove(models.Model):
             'x-simple-workspace': f'{organization}'
         }
         r = requests.get(f'{api}/invoices/{piriod_invoice_id}/pdf/', headers=credentials)
+        pdf_json = r.json()
+        log = {
+            'name': "Datos pdf",
+            'url_used': f'{api}/invoices/{piriod_invoice_id}/pdf/',
+            'JSON_entrada': pdf_json
+        }
+        self.env['piriod.webhook.log'].sudo().create(log)
         return r
 
     def get_piriod_invoice_xml(self, invoice_json):
@@ -61,8 +73,8 @@ class AccountMove(models.Model):
         return True
 
 
-    def create_piriod_invoice(self, invoice_json, invoice_pdf_json):  # , invoice_pdf_xml
-        if invoice_json and invoice_pdf_json:
+    def create_piriod_invoice(self, invoice_json):
+        if invoice_json:
             odoo_partner = self.env['res.partner'].search([('name', '=', invoice_json["customer"]["name"])])
             if not odoo_partner:
                 odoo_partner = self.env['res.partner'].create_piriod_customer(invoice_json["customer"])
@@ -78,7 +90,6 @@ class AccountMove(models.Model):
                 'invoice_date_due': invoice_json["due_date"],
                 'currency_id': 45,
                 'l10n_latam_document_type_id': odoo_document.id,
-                'piriod_pdf_invoice': invoice_pdf_json["file"],
                 'invoice_line_ids': lines
             }
             odoo_invoice = self.env['account.move'].sudo().create(data)
@@ -109,6 +120,4 @@ class AccountMove(models.Model):
                         'datas': xml_b64,
                         'res_id': odoo_invoice.id,
                     })
-
-            print(odoo_invoice.id)
         return odoo_invoice

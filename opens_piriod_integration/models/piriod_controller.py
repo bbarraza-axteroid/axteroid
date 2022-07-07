@@ -1,4 +1,4 @@
-from odoo import http
+from odoo import http, models, fields
 from odoo.http import Response
 from odoo.http import request
 import logging
@@ -13,10 +13,14 @@ class PiriodController(http.Controller):
     def piriod_webhook_invoice(self, **kw):
         _logger.info('###### WEBHOOK INVOICE')
         json = request.jsonrequest
+        log = {
+            'name': "Activacion de evento",
+            'JSON_entrada': json
+        }
+        request.env['piriod.webhook.log'].sudo().create(log)
         if not json:
             return Response(status=400)
         piriod_invoice_id = json.get('object_id')
-
         # piriod_signature = request.httprequest.headers.get('x-piriod-signature')
         # _logger.info(piriod_signature)
         # if not request.env['account.move'].sudo().signature_is_valid(piriod_signature):
@@ -28,21 +32,14 @@ class PiriodController(http.Controller):
             if not invoice.status_code == requests.codes.ok:
                 return Response(status=404)
             invoice_json = invoice.json()
-            _logger.info(invoice_json)
-            #Respuesta del pdf de la factura
-            invoice_pdf = request.env['account.move'].sudo().get_piriod_invoice_pdf(piriod_invoice_id)
-            if not invoice_pdf.status_code == requests.codes.ok:
-                return Response(status=404)
-            invoice_pdf_json = invoice_pdf.json()
-
-            #Respuesta del xml de la factura (No esta funcionando con cambiar pdf por xml)
-            # invoice_xml = request.env['account.move'].sudo().get_piriod_invoice_xml(piriod_invoice_id)
-            # if not invoice_xml.status_code == requests.codes.ok:
-            #     return Response(status=404)
-            # invoice_xml_json = invoice_xml.json()
-            # print(invoice_xml_json)
-
-            request.env['account.move'].sudo().create_piriod_invoice(invoice_json, invoice_pdf_json)
+            request.env['account.move'].sudo().create_piriod_invoice(invoice_json)
         else:
             return Response(status=400)
         return Response(status=200)
+
+class PiriodWebhookLog(models.Model):
+    _name = 'piriod.webhook.log'
+
+    name = fields.Char(string='Nombre')
+    url_used = fields.Char(string="url utilizada en request")
+    JSON_entrada = fields.Char(string="Json obtenido")
