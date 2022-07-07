@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="piriod_res_company_form" model="ir.ui.view">
+        <field name="name">Configuracion Credenciales API Piriod</field>
+        <field name="model">res.company</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="piriod_connection_url"></field>
+                <field name="organization_id"></field>
+                <field name="token" password="True"></field>
+            </xpath>
+        </field>
+    </record>
+</odoo>
