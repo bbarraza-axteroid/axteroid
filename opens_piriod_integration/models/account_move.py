@@ -74,6 +74,10 @@ class AccountMove(models.Model):
 
 
     def create_piriod_invoice(self, invoice_json):
+        companys = self.env['res.company'].sudo().search([('name', '=', 'AXTEROID')])
+        company_id = 3
+        for d in companys:
+            company_id = d.id
         if invoice_json:
             odoo_partner = self.env['res.partner'].search([('name', '=', invoice_json["customer"]["name"])])
             if not odoo_partner:
@@ -82,7 +86,9 @@ class AccountMove(models.Model):
             if not odoo_document:
                 odoo_document = self.env['l10n_latam.document.type'].create_piriod_document(invoice_json["document"])
             lines = self.env['account.move.line'].create_piriod_lines(invoice_json["lines"])
+            journal = self.env['account.journal'].search([('code', '=', 'INV'),('company_id', '=', int(company_id))])
             data = {
+                'company_id': int(company_id),
                 'move_type':'out_invoice',
                 'piriod_id': invoice_json["id"],
                 'partner_id': odoo_partner.id,
@@ -91,9 +97,9 @@ class AccountMove(models.Model):
                 'currency_id': 45,
                 'l10n_latam_document_type_id': odoo_document.id,
                 'invoice_line_ids': lines,
-                'company_id':3
+                'journal_id':journal.id
             }
-            odoo_invoice = self.env['account.move'].sudo().create(data)
+            odoo_invoice = self.env['account.move'].with_company(int(company_id)).create(data)
             folio_piriod_ext = invoice_json['number']
             new_name = odoo_invoice.sequence_prefix + str(folio_piriod_ext).zfill(6)
             odoo_invoice.write({'name': new_name, 'payment_reference': new_name, 'sequence_number': folio_piriod_ext})
