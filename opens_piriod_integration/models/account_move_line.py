@@ -8,10 +8,7 @@ class AccountMoveLine(models.Model):
         if lines_json:
             settings = self.env['ir.config_parameter'].sudo()
             account_id = settings.get_param('piriod_account_id')
-            parse = str(account_id)
-            parse_rest = parse[:-1]
-            final_parse = parse_rest[1:]
-            account_id = int(final_parse)
+            account_id = int(account_id)
             lines = [(5,)]
             for line in lines_json:
                 odoo_producto = self.env['product.template'].sudo().search([('name', '=', line["name"])])
