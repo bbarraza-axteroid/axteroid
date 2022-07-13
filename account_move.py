@@ -35,7 +35,7 @@ class AccountMove(models.Model):
         return r
 
     def get_piriod_invoice_pdf(self, piriod_invoice_id):
-        companys = self.env['res.company'].sudo().search([])
+        companys = self.env['res.company'].sudo().search([('name','=','AXTEROID')])
         for company in companys:
             api = company.piriod_connection_url
             token = company.token
@@ -55,7 +55,7 @@ class AccountMove(models.Model):
         return r
 
     def get_piriod_invoice_xml(self, invoice_json):
-        companys = self.env['res.company'].sudo().search([])
+        companys = self.env['res.company'].sudo().search([('name','=','AXTEROID')])
         for company in companys:
             api = company.piriod_connection_url
             token = company.token
@@ -90,7 +90,8 @@ class AccountMove(models.Model):
                 'invoice_date_due': invoice_json["due_date"],
                 'currency_id': 45,
                 'l10n_latam_document_type_id': odoo_document.id,
-                'invoice_line_ids': lines
+                'invoice_line_ids': lines,
+                'company_id':3
             }
             odoo_invoice = self.env['account.move'].sudo().create(data)
             folio_piriod_ext = invoice_json['number']
