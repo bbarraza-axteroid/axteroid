@@ -120,14 +120,16 @@ class BukIntegrationWizard(models.Model):
 
         # Se llama a la api de integración
         try:
-
-            url = "https://personasfn-test.buk.cl/api/v1/chile/accounting/export"
+            url = self.env['ir.config_parameter'].get_param('buk_api_url', default='')
+            auth_token = self.env['ir.config_parameter'].get_param('buk_api_key', default='')
+            if url in ['False',''] or auth_token in ['False','']:
+                raise ValidationError('No está definida una url o api key para conectarse a BUK')
             data = {
                 'month': int(self.month),
                 'year': self.year
             }
             headers = {
-                'auth_token': 'EbZN2xTsY7iNzLpZJ911iMLb'
+                'auth_token': auth_token
             }
 
             r = requests.get(url=url, data=data, headers=headers)

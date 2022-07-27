@@ -22,7 +22,8 @@
         'views/views.xml',
         'views/tree.xml',
         'views/buk_settings.xml',
-        'views/account_analytic.xml'
+        'views/account_analytic.xml',
+        'data/ir_config_parameter.xml'
     ],
 
 }
