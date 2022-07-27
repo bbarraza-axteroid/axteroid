@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+
+       <record id="view_buk_integration_wizard" model="ir.ui.view">
+            <field name="name">Importar asiento centralización de BUK</field>
+            <field name="model">buk.integration.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Libro de Remuneraciones">
+                <group>
+                <label for="month" string="Seleccionar periodo"/>
+                <div class="o_row">
+                    <field name="month" placeholder="Mes" required="True"/>
+
+                    <field name="year" placeholder="Año" required="True"/>
+                </div>
+                <field name="moves_found" readonly="True" invisible="1"/>
+                    <field name="state" readonly="True" invisible="1"/>
+                </group>
+                <group attrs="{'invisible':[('moves_found', '=', False)]}">
+
+                    <field name="confirmation"/>
+                </group>
+                  <field name="message" readonly="1"/>
+
+                <footer attrs="{'invisible':[('state', '=', 'done')]}">
+                  <button name="start_integration" string="Iniciar Integración" type="object" class="oe_highlight"/>o
+                  <button string="Cancelar" class="oe_link" special="cancel" />
+
+                </footer>
+
+              </form>
+            </field>
+        </record>
+
+
+
+       <record id="action_buk_integration_wizard" model="ir.actions.act_window">
+            <field name="name">Importar Centralización</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">buk.integration.wizard</field>
+            <field name="view_mode">form</field>
+           <field name="view_id" ref="view_buk_integration_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_bk_integration_wizard"
+                name="Importar centralización"
+                parent="account.menu_finance_entries"
+                sequence="100"
+                action="action_buk_integration_wizard"
+
+           />
+
+
+
+
+  </data>
+</odoo>

@@ -1,0 +1,68 @@
+<odoo>
+  <data>
+
+      <record id="view_buk_integration_wizard_form" model="ir.ui.view">
+            <field name="name">Informes de centralización BUK</field>
+            <field name="model">buk.integration.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form delete="false" edit="false" create="false">
+                    <sheet>
+                        <group>
+                            <field name="month"/>
+                            <field name="year"/>
+                            <field name="create_uid" string="Usuario"/>
+                            <field name="create_date" string="Fecha Creación"/>
+                            <field name="state"/>
+                            <field name="move_id"/>
+                            <field name="message"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+            <record id="action_buk_integration_wizard_list" model="ir.actions.act_window">
+                <field name="name">Informes de centralización</field>
+                <field name="res_model">buk.integration.wizard</field>
+                <field name="view_mode">tree,form</field>
+                <field name="target">current</field>
+                <field name="view_ids" eval="[(5,0,0),
+                          (0,0,{'view_mode':'tree'}),
+                          (0,0,{'view_mode':'form', 'view_id': ref('view_buk_integration_wizard_form')})]"/>
+            </record>
+
+
+      <record id="view_buk_integration_wizard_list" model="ir.ui.view">
+            <field name="name">Informes de centralización BUK</field>
+            <field name="model">buk.integration.wizard</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="false" edit="false" create="false">
+                    <field name="month"/>
+                    <field name="year"/>
+                    <field name="create_uid" string="Usuario"/>
+                    <field name="create_date" string="Fecha Creación"/>
+                    <field name="state"/>
+                    <field name="message"/>
+                </tree>
+
+            </field>
+        </record>
+
+
+
+
+
+
+      <menuitem
+                id="menu_bk_integration_wizard_list"
+                name="Informes de centralización"
+                parent="account.menu_finance_entries_actions"
+                sequence="101"
+                action="action_buk_integration_wizard_list"
+           />
+
+  </data>
+</odoo>

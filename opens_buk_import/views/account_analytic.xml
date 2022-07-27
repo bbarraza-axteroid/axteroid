@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="buk_code_inherit" model="ir.ui.view">
+          <field name="name">buk.code.inherit</field>
+          <field name="model">account.analytic.account</field>
+          <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+          <field name="arch" type="xml">
+            <xpath expr="//group[@name='main']/group[last()]" position="inside">
+                    <field name="buk_code"/>
+            </xpath>
+          </field>
+
+        </record>
+
+    </data>
+
+
+        <record id="buk_code_tag_inherit" model="ir.ui.view">
+          <field name="name">buk.code.tag.inherit</field>
+          <field name="model">account.analytic.tag</field>
+          <field name="inherit_id" ref="analytic.account_analytic_tag_form_view"/>
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='active_analytic_distribution']" position="after">
+                    <field name="buk_code"/>
+            </xpath>
+          </field>
+
+        </record>
+</odoo>
