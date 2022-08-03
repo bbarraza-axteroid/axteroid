@@ -88,7 +88,7 @@ class BukIntegrationWizard(models.Model):
 
         settings = self.env['ir.config_parameter'].sudo()
         buk_journal = settings.get_param('buk.buk_journal_id')
-        create_partner = settings.get_param('buk.buk_create_partner', default=False)
+        create_partner = settings.get_param('buk.buk_create_partner', default='False')
         if buk_journal:
             # Si se encontraron asientos muestra mensaje sobreescribir:
             move_dict = {
@@ -162,11 +162,11 @@ class BukIntegrationWizard(models.Model):
                     rut_f = line['cod_aux']
 
                     if line['cuenta']:
-                        rut_partner = self.env['res.partner'].search([('vat', '=', rut_f.upper())], limit=1)
-                        if not rut_partner and line['cod_aux'] != "":
+                        rut_partner = self.env['res.partner'].search([('vat', '=', rut_f.upper())], limit=1) if rut_f else None
+                        if not rut_partner and (line['cod_aux'] != "" or line['cod_aux'] != None):
                             if '<ul>%s</ul>' % line['cod_aux'] not in rut_error_log and not literal_eval(create_partner):
                                 rut_error_log.append('<ul>%s</ul>' % line['cod_aux'])
-                            else:
+                            elif rut_f and literal_eval(create_partner):
                                 created_partner = self.env['res.partner'].create({
                                     'name': line['detalle'],
                                     'vat': rut_f.upper(),
