@@ -167,7 +167,7 @@ class BukIntegrationWizard(models.Model):
                             if '<ul>%s</ul>' % line['cod_aux'] not in rut_error_log and not literal_eval(create_partner):
                                 rut_error_log.append('<ul>%s</ul>' % line['cod_aux'])
                             elif rut_f and literal_eval(create_partner):
-                                created_partner = self.env['res.partner'].create({
+                                rut_partner = self.env['res.partner'].create({
                                     'name': line['detalle'],
                                     'vat': rut_f.upper(),
 
