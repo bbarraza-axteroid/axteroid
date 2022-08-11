@@ -15,47 +15,57 @@ class AccountMove(models.Model):
     piriod_id = fields.Char(string='ID de la factura piriod')
 
     def get_piriod_invoice(self, piriod_invoice_id):
-        companys = self.env['res.company'].sudo().search([('name','=','AXTEROID')])
+        companys = self.env['res.company'].sudo().search([])
         for company in companys:
-            api = company.piriod_connection_url
-            token = company.token
-            organization = company.organization_id
-        credentials = {
-            'Authorization': f'Token {token}',
-            'x-simple-workspace': f'{organization}'
-        }
-        r = requests.get(f'{api}/invoices/{piriod_invoice_id}/', headers=credentials)
-        invoice_json = r.json()
-        log = {
-            'name': "Datos factura",
-            'url_used': f'{api}/invoices/{piriod_invoice_id}/',
-            'JSON_entrada': invoice_json
-        }
-        self.env['piriod.webhook.log'].sudo().create(log)
-        return r
+            try:
+                api = company.piriod_connection_url
+                token = company.token
+                organization = company.organization_id
+                credentials = {
+                    'Authorization': f'Token {token}',
+                    'x-simple-workspace': f'{organization}'
+                }
+                r = requests.get(f'{api}/invoices/{piriod_invoice_id}/', headers=credentials)
+                if r:
+                    invoice_json = r.json()
+                    log = {
+                        'name': "Datos factura",
+                        'url_used': f'{api}/invoices/{piriod_invoice_id}/',
+                        'JSON_entrada': invoice_json
+                    }
+                    self.env['piriod.webhook.log'].sudo().create(log)
+                    company_id = company.id
+                return r, company_id
+            except:
+                print(f'El piriod_invoice_id no pertenece a esta company = {company.name}')
+
 
     def get_piriod_invoice_pdf(self, piriod_invoice_id):
-        companys = self.env['res.company'].sudo().search([('name','=','AXTEROID')])
+        companys = self.env['res.company'].sudo().search([])
         for company in companys:
-            api = company.piriod_connection_url
-            token = company.token
-            organization = company.organization_id
-        credentials = {
-            'Authorization': f'Token {token}',
-            'x-simple-workspace': f'{organization}'
-        }
-        r = requests.get(f'{api}/invoices/{piriod_invoice_id}/pdf/', headers=credentials)
-        pdf_json = r.json()
-        log = {
-            'name': "Datos pdf",
-            'url_used': f'{api}/invoices/{piriod_invoice_id}/pdf/',
-            'JSON_entrada': pdf_json
-        }
-        self.env['piriod.webhook.log'].sudo().create(log)
-        return r
+            try:
+                api = company.piriod_connection_url
+                token = company.token
+                organization = company.organization_id
+                credentials = {
+                    'Authorization': f'Token {token}',
+                    'x-simple-workspace': f'{organization}'
+                }
+                r = requests.get(f'{api}/invoices/{piriod_invoice_id}/pdf/', headers=credentials)
+                if r:
+                    pdf_json = r.json()
+                    log = {
+                        'name': "Datos pdf",
+                        'url_used': f'{api}/invoices/{piriod_invoice_id}/pdf/',
+                        'JSON_entrada': pdf_json
+                    }
+                    self.env['piriod.webhook.log'].sudo().create(log)
+                return r
+            except:
+                print(f'El piriod_invoice_id no pertenece a esta company = {company.name}')
 
     def get_piriod_invoice_xml(self, invoice_json):
-        companys = self.env['res.company'].sudo().search([('name','=','AXTEROID')])
+        companys = self.env['res.company'].sudo().search([])
         for company in companys:
             api = company.piriod_connection_url
             token = company.token
@@ -73,11 +83,7 @@ class AccountMove(models.Model):
         return True
 
 
-    def create_piriod_invoice(self, invoice_json):
-        companys = self.env['res.company'].sudo().search([('name', '=', 'AXTEROID')])
-        company_id = 3
-        for d in companys:
-            company_id = d.id
+    def create_piriod_invoice(self, invoice_json, company_id):
         if invoice_json:
             odoo_partner = self.env['res.partner'].search([('name', '=', invoice_json["customer"]["name"])])
             if not odoo_partner:
@@ -85,7 +91,7 @@ class AccountMove(models.Model):
             odoo_document = self.env['l10n_latam.document.type'].search([('code', '=', invoice_json["document"]["code"])])
             if not odoo_document:
                 odoo_document = self.env['l10n_latam.document.type'].create_piriod_document(invoice_json["document"])
-            lines = self.env['account.move.line'].create_piriod_lines(invoice_json["lines"])
+            lines = self.env['account.move.line'].create_piriod_lines(invoice_json["lines"], company_id)
             journal = self.env['account.journal'].search([('code', '=', 'INV'),('company_id', '=', int(company_id))])
             data = {
                 'company_id': int(company_id),
@@ -105,7 +111,6 @@ class AccountMove(models.Model):
             odoo_invoice.write({'name': new_name, 'payment_reference': new_name, 'sequence_number': folio_piriod_ext})
             if odoo_invoice:
                 # obtener pdf/xml
-                print('d')
                 invoice_json_id = invoice_json["id"]
                 pdf_result = self.get_piriod_invoice_pdf(invoice_json_id)
                 if pdf_result:

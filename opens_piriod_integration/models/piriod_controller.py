@@ -22,17 +22,29 @@ class PiriodController(http.Controller):
             return Response(status=400)
         piriod_invoice_id = json.get('object_id')
         # piriod_signature = request.httprequest.headers.get('x-piriod-signature')
+        # piriod_headers = request.httprequest.headers
+        # _logger.info('====================================== x-piriod-signature ======================================')
         # _logger.info(piriod_signature)
+        # _logger.info(piriod_headers)
         # if not request.env['account.move'].sudo().signature_is_valid(piriod_signature):
         #     return Response(status=400)
 
         if json.get('event') == 'invoice.finalized':
             #Resuesta de la factura
-            invoice = request.env['account.move'].sudo().get_piriod_invoice(piriod_invoice_id)
+            invoice, company_id = request.env['account.move'].sudo().get_piriod_invoice(piriod_invoice_id)
             if not invoice.status_code == requests.codes.ok:
                 return Response(status=404)
             invoice_json = invoice.json()
-            request.env['account.move'].sudo().create_piriod_invoice(invoice_json)
+            is_duplicate = request.env['account.move'].sudo().search(
+                [('piriod_id', '=', invoice_json["id"]), ('company_id', '=', company_id)])
+            if is_duplicate:
+                log = {
+                    'name': "Factura Duplicada",
+                    'JSON_entrada': invoice_json
+                }
+                request.env['piriod.webhook.log'].sudo().create(log)
+            else:
+                request.env['account.move'].sudo().create_piriod_invoice(invoice_json, company_id)
         else:
             return Response(status=400)
         return Response(status=200)

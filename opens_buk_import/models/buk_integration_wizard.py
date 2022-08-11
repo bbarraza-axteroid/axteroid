@@ -189,7 +189,7 @@ class BukIntegrationWizard(models.Model):
                             line_created = self.env['account.move.line'].with_context(check_move_validity=False).create({
                                 'move_id': move_created.id,
                                 'account_id': acc.id,
-                                'partner_id': rut_partner.id,
+                                'partner_id': rut_partner.id if rut_partner else None,
                                 'analytic_account_id': aaa.id or None,
                                 'name': line['detalle'],
                                 'debit': line['monto_debe'],
