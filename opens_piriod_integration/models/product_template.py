@@ -8,7 +8,6 @@ class ProductTemplate(models.Model):
             data = {
                 'name': product["name"],
                 'company_id':int(company_id)
-
             }
-            odoo_product = self.env['product.template'].with_company(int(company_id)).create(data)
+            odoo_product = self.env['product.template'].sudo().create(data)
             return odoo_product

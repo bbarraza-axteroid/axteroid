@@ -10,5 +10,5 @@ class L10nLatamDocumentType(models.Model):
                 'name': document_json["name"],
                 'code': document_json["code"]
             }
-            odoo_document = self.env['l10n_latam.document.type'].create(data)
+            odoo_document = self.env['l10n_latam.document.type'].sudo().create(data)
             return odoo_document

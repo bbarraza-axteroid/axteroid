@@ -20,6 +20,6 @@ class ResPartner(models.Model):
                 'email': customer_json["email"],
                 'phone': customer_json["phone"],
             }
-            odoo_customer = self.env['res.partner'].create(data)
+            odoo_customer = self.env['res.partner'].sudo().create(data)
             odoo_customer.l10n_cl_sii_taxpayer_type = '1'
             return odoo_customer

@@ -1,0 +1,200 @@
+{
+    "id": "inv_gaXWDJt8jXRt8cu0wn",
+    "currency": "CLP",
+    "lines": [
+        {
+            "id": "inv_XhoV25Dry9hCb47u8h",
+            "name": "Monto Faltante Procesamiento Documentos mes junio",
+            "description": "Total DTE 792 - BOLETAS 8245",
+            "amount": 330868.3,
+            "exempt": false,
+            "quantity": 1.0,
+            "tax": null,
+            "tax_percent": null,
+            "total": 330868.0,
+            "discount": 0.0,
+            "discount_scheme": "%",
+            "code": null,
+            "code_scheme": null,
+            "created": "2022-08-19T15:34:25.781582-04:00",
+            "updated": "2022-08-19T15:34:25.781613-04:00",
+            "invoice": "inv_gaXWDJt8jXRt8cu0wn",
+            "plan": null
+        }
+    ],
+    "payments": [
+        {
+            "id": "pay_PwtaNEDjcktY46Pmy8",
+            "intent": null,
+            "links": {},
+            "refunds": [],
+            "date": "2022-09-18",
+            "amount": 393733.0,
+            "description": "Pago de factura",
+            "status": "requires_payment_method",
+            "payment_date": null,
+            "failed_reason": null,
+            "return_url": null,
+            "enable_checkout": true,
+            "metadata": {},
+            "created": "2022-08-19T15:34:25.681052-04:00",
+            "updated": "2022-08-19T15:34:25.681081-04:00",
+            "account": "acc_itTURIMALgOcTJS8px",
+            "invoice": "inv_gaXWDJt8jXRt8cu0wn",
+            "subscription": null,
+            "customer": {
+                "id": "cus_S6F2pJIoCLoQ7jZEI9",
+                "aggregations": {
+                    "sales": 2005899.0,
+                    "sales_current_period": 1069178.0,
+                    "balance": 1106399.0
+                },
+                "contacts": [
+                    {
+                        "id": "con_YMx7AVED5xaIYpW6et",
+                        "email": "vgonzalez@carnesdanke.cl",
+                        "name": "COMERCIAL CARNES DANKE",
+                        "phone": "",
+                        "invoicing": true,
+                        "collections": true,
+                        "created": "2022-07-20T16:49:45.460609-04:00",
+                        "updated": "2022-07-20T16:49:54.381152-04:00",
+                        "customer": "cus_S6F2pJIoCLoQ7jZEI9",
+                        "orgunit": null
+                    }
+                ],
+                "sources": [],
+                "address": "PANAMERICANA NORTE  1600",
+                "email": "facturaciondte@facturachile.cl",
+                "metadata": {},
+                "name": "COMERCIAL CARNES DANKE S.A.",
+                "phone": "",
+                "tax_id": "99574970-K",
+                "tax_settings": {
+                    "cl_activity_description": "MATADERO TRANSPORTE ARRIENDO B.RAIZ VENTAS CARNE BEBIDAS CARBON"
+                },
+                "website": "",
+                "created": "2022-06-03T13:32:01.706745-04:00",
+                "updated": "2022-06-29T22:46:26.607131-04:00",
+                "country": {
+                    "id": "CL",
+                    "name": "Chile",
+                    "name_default": "Chile",
+                    "phone_code": "+56",
+                    "has_regulation": true,
+                    "tax_percent": 19.0
+                },
+                "currency": "CLP",
+                "state": {
+                    "id": "CL04102",
+                    "code": "04102",
+                    "name": "Coquimbo"
+                }
+            },
+            "currency": "CLP",
+            "source": null
+        }
+    ],
+    "references": [],
+    "number": 101,
+    "test_mode": false,
+    "date": "2022-08-19",
+    "due_date": "2022-09-18",
+    "amount": 330868.0,
+    "exempt": 0.0,
+    "tax": 62865.0,
+    "tax_percent": 19.0,
+    "subtotal": 330868.0,
+    "total": 393733.0,
+    "total_adjusted": 393733.0,
+    "discount": 0.0,
+    "discount_scheme": "%",
+    "period_start": null,
+    "period_end": null,
+    "collection_method": "deferred",
+    "local_file": "https://s3.amazonaws.com/api.piriod.com/invoice/local_file/b1b87f08-f8a9-4cac-a5e7-33b6f97df939.xml?AWSAccessKeyId=AKIA4DWOYUYS7NDO7TDN&Signature=3vsKYj6fZmlG5Lmg%2FJY%2FM5%2BNmz0%3D&Expires=1660948222",
+    "note": "Error facturación. Monto faltante mes junio (FE.37) 10 UF * 33.086,83 CL",
+    "fiscal_settings": {},
+    "tax_agency": {
+        "cl_id": 7669032620,
+        "cl_status": "EPR - Envio Procesado",
+        "cl_status_detail": "Aceptado"
+    },
+    "metadata": {},
+    "status": "finalized",
+    "imported": false,
+    "uncollectible": null,
+    "created": "2022-08-19T15:29:09.787212-04:00",
+    "updated": "2022-08-19T16:06:44.912629-04:00",
+    "customer": {
+        "id": "cus_S6F2pJIoCLoQ7jZEI9",
+        "aggregations": {
+            "sales": 2005899.0,
+            "sales_current_period": 1069178.0,
+            "balance": 1106399.0
+        },
+        "contacts": [
+            {
+                "id": "con_YMx7AVED5xaIYpW6et",
+                "email": "vgonzalez@carnesdanke.cl",
+                "name": "COMERCIAL CARNES DANKE",
+                "phone": "",
+                "invoicing": true,
+                "collections": true,
+                "created": "2022-07-20T16:49:45.460609-04:00",
+                "updated": "2022-07-20T16:49:54.381152-04:00",
+                "customer": "cus_S6F2pJIoCLoQ7jZEI9",
+                "orgunit": null
+            }
+        ],
+        "sources": [],
+        "address": "PANAMERICANA NORTE  1600",
+        "email": "facturaciondte@facturachile.cl",
+        "metadata": {},
+        "name": "COMERCIAL CARNES DANKE S.A.",
+        "phone": "",
+        "tax_id": "99574970-K",
+        "tax_settings": {
+            "cl_activity_description": "MATADERO TRANSPORTE ARRIENDO B.RAIZ VENTAS CARNE BEBIDAS CARBON"
+        },
+        "website": "",
+        "created": "2022-06-03T13:32:01.706745-04:00",
+        "updated": "2022-06-29T22:46:26.607131-04:00",
+        "country": {
+            "id": "CL",
+            "name": "Chile",
+            "name_default": "Chile",
+            "phone_code": "+56",
+            "has_regulation": true,
+            "tax_percent": 19.0
+        },
+        "currency": "CLP",
+        "state": {
+            "id": "CL04102",
+            "code": "04102",
+            "name": "Coquimbo"
+        }
+    },
+    "document": {
+        "id": "CL33",
+        "tax": 19.0,
+        "code": 33,
+        "name": "Factura electrónica",
+        "has_taxes": true,
+        "has_taxes_detail": true,
+        "has_lines_total": false,
+        "has_local_format": true,
+        "hold_taxes": false,
+        "is_foreign": false,
+        "is_sale": true,
+        "is_purshase": true,
+        "is_order": false,
+        "send": true,
+        "given": true,
+        "country": "CL",
+        "currencies": [
+            "CLP"
+        ]
+    },
+    "subscription": null
+}

@@ -10,6 +10,7 @@
                 <field name="piriod_connection_url"></field>
                 <field name="organization_id"></field>
                 <field name="token" password="True"></field>
+                <field name="piriod_account_id"></field>
             </xpath>
         </field>
     </record>
