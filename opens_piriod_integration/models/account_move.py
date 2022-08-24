@@ -46,7 +46,7 @@ class AccountMove(models.Model):
             Log = self.env['piriod.webhook.log']
 
             odoo_partner = Partner.search(
-                [('name', '=', invoice_json["customer"]["name"])])
+                [('name', '=', invoice_json["customer"]["name"])], limit=1)
             if not odoo_partner:
                 odoo_partner = Partner.create_piriod_customer(
                     invoice_json["customer"])
@@ -134,7 +134,7 @@ class AccountMove(models.Model):
 
             for line in lines_json:
                 odoo_producto = Product.sudo().search([('name', '=', line["name"]),
-                                                       ('company_id', '=', company_id)])
+                                                       ('company_id', '=', company_id)], limit=1)
                 if not odoo_producto:
                     odoo_producto = Product.create_piriod_product(
                         line, company_id)
