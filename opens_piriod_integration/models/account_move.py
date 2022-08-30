@@ -128,7 +128,9 @@ class AccountMove(models.Model):
 
     def create_piriod_lines(self, lines_json, company_id):
         if lines_json:
-            account_id = self.env.company.piriod_account_id.id
+            Company = self.env['res.company'].search([('id', '=', company_id)])
+            #account_id = self.env.company.piriod_account_id.id
+            account_id = Company.piriod_account_id.id
             lines = [(5,)]
             Product = self.env['product.template']
 
