@@ -1,0 +1,82 @@
+# Python Bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual Environments
+env/
+venv/
+ENV/
+.venv/
+.VENV/
+*.egg-info/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Logs
+*.log
+*.out
+*.err
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor Configurations
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Test Results
+.coverage
+*.cover
+htmlcov/
+.tox/
+.nox/
+.cache/
+pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Packaging
+build/
+dist/
+*.egg
+*.egg-info/
+.eggs/
+MANIFEST
+
+# PyInstaller
+*.spec
+
+# Pip dependency and cache
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Python environment files
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Compiled C extensions
+*.so
+
+# MyPy
+.mypy_cache/
+
+# pyenv
+.python-version
+
+# Local configuration files
+*.env
+.env.*
+
+# Secrets (Optional, for caution)
+*.key
+*.crt
+*.pem
+
+
