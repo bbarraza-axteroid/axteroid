@@ -92,6 +92,7 @@ class PiriodController(http.Controller):
 
 class PiriodWebhookLog(models.Model):
     _name = 'piriod.webhook.log'
+    _description = 'Piriod Webhook Log'
 
     name = fields.Char(string='Nombre')
     url_used = fields.Char(string="url utilizada en request")

@@ -11,6 +11,6 @@ class BukIntegrationWizard(models.Model):
 
 
 class AccountAnalyticTag(models.Model):
-    _inherit = 'account.analytic.tag'
+    _inherit = 'account.analytic.plan'
 
     buk_code = fields.Char("Código BUK")
