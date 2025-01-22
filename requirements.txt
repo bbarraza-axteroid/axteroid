@@ -1,1 +1,2 @@
 pdf417gen
+Pillow>=9.1.0
