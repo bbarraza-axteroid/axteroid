@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Vista heredada del formulario de Pagos en Lote -->
     <record id="view_batch_payment_form_bice" model="ir.ui.view">
         <field name="name">account.batch.payment.form.bice</field>
         <field name="model">account.batch.payment</field>
-        <field name="inherit_id" ref="account_batch_payment.view_account_batch_payment_form"/>
+        <!-- XMLID correcto en Odoo 17 -->
+        <field name="inherit_id" ref="account.account_batch_payment_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_export_bice_nomina"
