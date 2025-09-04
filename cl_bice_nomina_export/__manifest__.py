@@ -10,7 +10,6 @@
         "security/ir.model.access.csv",
         "views/res_bank_views.xml",
         "views/account_batch_payment_views.xml",
-        "wizard/bice_export_wizard_views.xml"
     ],
     "application": True,
     "installable": True,
