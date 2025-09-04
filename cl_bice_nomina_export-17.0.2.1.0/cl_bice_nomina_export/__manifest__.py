@@ -12,5 +12,6 @@
         "views/account_batch_payment_views.xml",
         "wizard/bice_export_wizard_views.xml"
     ],
-    "application": false
+    "application": True,
+    "installable": True,
 }
