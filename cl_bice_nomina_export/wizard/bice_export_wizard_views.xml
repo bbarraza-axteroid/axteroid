@@ -1,18 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- Acción del wizard -->
+    <record id="action_bice_export_wizard" model="ir.actions.act_window">
+        <field name="name">Exportar BICE Proveedores</field>
+        <field name="res_model">bice.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <!-- Pasamos el lote al wizard -->
+        <field name="context">{'default_batch_id': active_id}</field>
+    </record>
+
+    <!-- Form del wizard -->
     <record id="view_bice_export_wizard" model="ir.ui.view">
         <field name="name">bice.export.wizard.form</field>
         <field name="model">bice.export.wizard</field>
         <field name="arch" type="xml">
             <form string="Exportar BICE Proveedores">
                 <group>
-                    <label string="Este asistente generará el archivo y lo adjuntará al lote."/>
+                    <label string="Se generará el archivo y quedará adjunto al lote."/>
                 </group>
                 <footer>
-                    <button string="Generar archivo" type="object"
-                            name="action_generate" class="btn-primary"/>
-                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    <button string="Generar archivo"
+                            type="object"
+                            name="action_generate"
+                            class="btn-primary"/>
+                    <button string="Cancelar"
+                            class="btn-secondary"
+                            special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
+
 </odoo>
