@@ -1,20 +1,16 @@
+# cl_bice_nomina_export/__manifest__.py
 {
     "name": "CL: Exportador Nómina Banco BICE (Proveedores)",
-    "version": "17.0.2.1.1",
-    "summary": "Genera archivo CSV (layout BICE Proveedores) desde Pagos en Lote.",
-    "author": "Branco_Barraza",
-    "website": "",
-    "license": "LGPL-3",
+    "version": "17.0.1.0.0",
+    "author": "Beagle",
+    "category": "Accounting",
     "depends": ["account", "account_batch_payment"],
     "data": [
-        "security/ir.model.access.csv",
-        "views/res_bank_views.xml",
-
-        # Primero: wizard (crea la ACCIÓN que luego usa el botón)
+        # PRIMERO: acción + vista del wizard
         "wizard/bice_export_wizard_views.xml",
-
-        # Después: la vista que añade el botón al lote de pagos
+        # DESPUÉS: herencia de la vista de lotes con el botón
         "views/account_batch_payment_views.xml",
+        # (si tienes security/ir.model.access.csv déjalo aquí también)
     ],
-    "application": False,
+    "installable": True,
 }
