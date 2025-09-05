@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_bice_export_wizard,bice.export.wizard,model_bice_export_wizard,,1,0,1,0
+access_bice_export_wizard,bice.export.wizard,model_bice_export_wizard,account.group_account_user,1,1,1,1
