@@ -1,42 +1,59 @@
 from odoo import models, fields, api
 import base64
 import csv
-import io
+from io import StringIO
 
 class BiceExportWizard(models.TransientModel):
-    _name = "bice.export.wizard"
-    _description = "Exportar archivo Proveedores Banco BICE"
+    _name = 'bice.export.wizard'
+    _description = 'Exportar archivo Proveedores Banco BICE'
 
-    archivo = fields.Binary("Archivo", readonly=True)
-    nombre = fields.Char("Nombre", default="proveedores.csv", readonly=True)
+    batch_id = fields.Many2one(
+        'account.batch.payment',
+        string='Batch',
+        required=True,
+        readonly=True,
+    )
 
-    def action_export(self):
-        """Generar CSV de prueba y mostrar link de descarga"""
+    def action_generate(self):
+        # Generar el contenido del CSV
+        csv_buffer = StringIO()
+        writer = csv.writer(csv_buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
 
-        # Crear CSV temporal
-        output = io.StringIO()
-        writer = csv.writer(output, delimiter=';')
+        # Cabecera (ajústala según layout real del BICE)
+        writer.writerow(['Rut', 'Nombre', 'Cuenta', 'Monto'])
 
-        # Cabecera de ejemplo (ajusta al formato de BICE)
-        writer.writerow(["RUT", "Nombre", "Banco", "Cuenta", "Monto"])
+        # Detalle de pagos
+        for payment in self.batch_id.payment_ids:
+            partner = payment.partner_id
+            writer.writerow([
+                partner.vat or '',
+                partner.name or '',
+                payment.partner_bank_id.acc_number or '',
+                "{:.2f}".format(payment.amount),
+            ])
 
-        # Datos de ejemplo (en producción, usar los pagos del batch)
-        writer.writerow(["11111111-1", "Proveedor Demo", "BICE", "12345678", "10000"])
+        csv_content = csv_buffer.getvalue()
+        csv_buffer.close()
 
-        # Codificar a base64
-        file_content = base64.b64encode(output.getvalue().encode("utf-8"))
-
-        # Guardar en los campos del wizard
-        self.write({
-            "archivo": file_content,
-            "nombre": "proveedores.csv"
+        # Guardar como attachment vinculado al lote
+        attachment = self.env['ir.attachment'].create({
+            'name': 'proveedores_bice.csv',
+            'type': 'binary',
+            'datas': base64.b64encode(csv_content.encode('utf-8')),
+            'res_model': 'account.batch.payment',
+            'res_id': self.batch_id.id,
+            'mimetype': 'text/csv',
         })
 
-        # Volver a abrir el wizard con el archivo ya disponible
+        # Opcional: mensaje en el chatter del lote
+        self.batch_id.message_post(
+            body="Se generó el archivo BICE Proveedores",
+            attachment_ids=[attachment.id]
+        )
+
         return {
-            "type": "ir.actions.act_window",
-            "res_model": "bice.export.wizard",
-            "view_mode": "form",
-            "res_id": self.id,
-            "target": "new",
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.batch.payment',
+            'view_mode': 'form',
+            'res_id': self.batch_id.id,
         }
