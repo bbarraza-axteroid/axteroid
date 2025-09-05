@@ -7,18 +7,17 @@
         <field name="res_model">bice.export.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <!-- Pasamos el lote al wizard -->
         <field name="context">{'default_batch_id': active_id}</field>
     </record>
 
-    <!-- Form del wizard -->
+    <!-- Form del wizard (simple, solo botón de generar) -->
     <record id="view_bice_export_wizard" model="ir.ui.view">
         <field name="name">bice.export.wizard.form</field>
         <field name="model">bice.export.wizard</field>
         <field name="arch" type="xml">
             <form string="Exportar BICE Proveedores">
                 <group>
-                    <label string="Se generará el archivo y quedará adjunto al lote."/>
+                    <label string="Se generará el archivo CSV y quedará adjunto al lote."/>
                 </group>
                 <footer>
                     <button string="Generar archivo"
