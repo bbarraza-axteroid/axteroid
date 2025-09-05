@@ -5,6 +5,9 @@
         <field name="inherit_id" ref="account_batch_payment.view_batch_payment_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
+                <!-- Debe estar presente para poder usarlo en modifiers -->
+                <field name="payment_type" invisible="1"/>
+
                 <button string="Exportar BICE Proveedores"
                         type="action"
                         name="%(cl_bice_nomina_export.action_bice_export_wizard)d"
