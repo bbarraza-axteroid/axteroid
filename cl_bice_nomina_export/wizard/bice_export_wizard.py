@@ -20,19 +20,19 @@ class BiceExportWizard(models.TransientModel):
         self.ensure_one()
 
         # --- Generar CSV en memoria ---
-        buf = StringIO()
+        buf = StringIO(newline='')
         writer = csv.writer(buf, delimiter=';', quoting=csv.QUOTE_MINIMAL)
 
-        # Cabecera de ejemplo
+        # Cabecera de ejemplo (ajústala a tu layout real)
         writer.writerow(['Rut', 'Nombre', 'Cuenta', 'Monto'])
 
-        # Detalle desde pagos del lote
+        # Detalle desde los pagos del lote
         for payment in self.batch_id.payment_ids:
             partner = payment.partner_id
             writer.writerow([
-                partner.vat or '',
-                partner.name or '',
-                payment.partner_bank_id.acc_number or '',
+                (partner.vat or '').strip(),
+                (partner.name or '').strip(),
+                (payment.partner_bank_id.acc_number or '').strip(),
                 f"{payment.amount:.2f}",
             ])
 
