@@ -5,11 +5,10 @@
         <field name="inherit_id" ref="account_batch_payment.view_batch_payment_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <!-- Botón sin condición -->
-                <button string="Exportar BICE Proveedores"
-                        type="action"
-                        name="%(cl_bice_nomina_export.action_bice_export_wizard)d"
-                        class="oe_highlight"/>
+                <button name="action_export_bice"
+                        type="object"
+                        string="Exportar BICE Proveedores"
+                        class="btn-primary"/>
             </xpath>
         </field>
     </record>
