@@ -1,1 +1,1 @@
-from . import bice_export_wizard
+from . import wizard
