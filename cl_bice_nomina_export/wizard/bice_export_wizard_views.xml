@@ -9,7 +9,7 @@
                     <field name="file_name" readonly="1"/>
                 </group>
                 <footer>
-                    <button name="generate_csv_bice" type="object" string="Generar Archivo" class="btn-primary"/>
+                    <button name="export_bice_proveedores_file" type="object" string="Generar Archivo" class="btn-primary"/>
                     <button string="Cerrar" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>
