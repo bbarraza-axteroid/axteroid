@@ -8,7 +8,7 @@
     'data': [
         'security/ir.model.access.csv',
         'wizard/bice_export_wizard_views.xml',
-        'views/bice_export_wizard_views.xml',
+        'views/account_batch_payment_views.xml',
     ],
     'installable': True,
 }
