@@ -3,7 +3,6 @@
     <record id="view_batch_payment_form_bice" model="ir.ui.view">
         <field name="name">account.batch.payment.form.bice</field>
         <field name="model">account.batch.payment</field>
-        <!-- Este ID existe en Odoo 17 -->
         <field name="inherit_id" ref="account_batch_payment.view_batch_payment_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
