@@ -5,15 +5,12 @@
         <field name="arch" type="xml">
             <form string="Exportar BICE Proveedores">
                 <group>
-                    <field name="batch_id" invisible="1"/>
-                </group>
-                <group>
-                    <field name="archivo" filename="nombre"/>
-                    <field name="nombre" invisible="1"/>
+                    <label string="Este asistente generará el archivo y lo adjuntará al lote."/>
                 </group>
                 <footer>
-                    <button string="Generar archivo" name="action_generate" type="object" class="btn-primary"/>
-                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                    <button string="Generar archivo" type="object"
+                            name="action_generate" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>
         </field>
