@@ -1,52 +1,38 @@
 from odoo import models, fields, api
 import base64
-import io
 import csv
-from datetime import datetime
+import io
 
 class BiceExportWizard(models.TransientModel):
     _name = "bice.export.wizard"
     _description = "Exportar archivo Proveedores Banco BICE"
 
     archivo = fields.Binary("Archivo", readonly=True)
-    nombre = fields.Char("Nombre", readonly=True, default="proveedores.csv")
+    nombre = fields.Char("Nombre", default="proveedores.csv", readonly=True)
 
-    def action_export_bice_nomina(self):
-        """Genera el archivo CSV para BICE Proveedores y lo retorna en el wizard"""
-        batch = self.env['account.batch.payment'].browse(self._context.get('active_id'))
-        if not batch:
-            return
+    def action_export(self):
+        """Generar CSV de prueba y mostrar link de descarga"""
 
-        # Buffer CSV en memoria
-        buffer = io.StringIO()
-        writer = csv.writer(buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
+        # Crear CSV temporal
+        output = io.StringIO()
+        writer = csv.writer(output, delimiter=';')
 
-        # Recorrer pagos y escribir líneas
-        for payment in batch.payment_ids:
-            partner = payment.partner_id
-            row = [
-                partner.name or "",
-                partner.vat or "",
-                payment.amount or 0.0,
-                "CTA CORRIENTE",  # en duro como pediste
-                partner.bank_ids[:1].acc_number if partner.bank_ids else "",
-            ]
-            writer.writerow(row)
+        # Cabecera de ejemplo (ajusta al formato de BICE)
+        writer.writerow(["RUT", "Nombre", "Banco", "Cuenta", "Monto"])
 
-        # Contenido CSV
-        csv_content = buffer.getvalue()
-        buffer.close()
+        # Datos de ejemplo (en producción, usar los pagos del batch)
+        writer.writerow(["11111111-1", "Proveedor Demo", "BICE", "12345678", "10000"])
 
-        # Convertir a base64 para el Binary
-        archivo_binario = base64.b64encode(csv_content.encode("utf-8"))
+        # Codificar a base64
+        file_content = base64.b64encode(output.getvalue().encode("utf-8"))
 
-        # Asignar archivo y nombre en duro
+        # Guardar en los campos del wizard
         self.write({
-            "archivo": archivo_binario,
+            "archivo": file_content,
             "nombre": "proveedores.csv"
         })
 
-        # Retornar vista del wizard con archivo cargado
+        # Volver a abrir el wizard con el archivo ya disponible
         return {
             "type": "ir.actions.act_window",
             "res_model": "bice.export.wizard",
