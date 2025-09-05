@@ -19,7 +19,7 @@ class BiceExportWizard(models.TransientModel):
         csv_buffer = StringIO()
         writer = csv.writer(csv_buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
 
-        # Cabecera (ajústala según layout real del BICE)
+        # Cabecera de ejemplo
         writer.writerow(['Rut', 'Nombre', 'Cuenta', 'Monto'])
 
         # Detalle de pagos
@@ -35,7 +35,7 @@ class BiceExportWizard(models.TransientModel):
         csv_content = csv_buffer.getvalue()
         csv_buffer.close()
 
-        # Guardar como attachment vinculado al lote
+        # Crear attachment vinculado al lote
         attachment = self.env['ir.attachment'].create({
             'name': 'proveedores_bice.csv',
             'type': 'binary',
@@ -45,12 +45,13 @@ class BiceExportWizard(models.TransientModel):
             'mimetype': 'text/csv',
         })
 
-        # Opcional: mensaje en el chatter del lote
+        # Publicar en el chatter
         self.batch_id.message_post(
-            body="Se generó el archivo BICE Proveedores",
+            body="Archivo BICE Proveedores generado.",
             attachment_ids=[attachment.id]
         )
 
+        # Redirigir al lote de pagos
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.batch.payment',
