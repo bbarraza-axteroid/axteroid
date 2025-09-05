@@ -1,7 +1,8 @@
-from odoo import models, fields, api
+from odoo import models, fields
 import base64
 import csv
 from io import StringIO
+
 
 class BiceExportWizard(models.TransientModel):
     _name = 'bice.export.wizard'
@@ -15,43 +16,46 @@ class BiceExportWizard(models.TransientModel):
     )
 
     def action_generate(self):
-        # Generar el contenido del CSV
-        csv_buffer = StringIO()
-        writer = csv.writer(csv_buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
+        """Genera el CSV, lo adjunta al lote y vuelve al lote."""
+        self.ensure_one()
+
+        # --- Generar CSV en memoria ---
+        buf = StringIO()
+        writer = csv.writer(buf, delimiter=';', quoting=csv.QUOTE_MINIMAL)
 
         # Cabecera de ejemplo
         writer.writerow(['Rut', 'Nombre', 'Cuenta', 'Monto'])
 
-        # Detalle de pagos
+        # Detalle desde pagos del lote
         for payment in self.batch_id.payment_ids:
             partner = payment.partner_id
             writer.writerow([
                 partner.vat or '',
                 partner.name or '',
                 payment.partner_bank_id.acc_number or '',
-                "{:.2f}".format(payment.amount),
+                f"{payment.amount:.2f}",
             ])
 
-        csv_content = csv_buffer.getvalue()
-        csv_buffer.close()
+        csv_content = buf.getvalue()
+        buf.close()
 
-        # Crear attachment vinculado al lote
+        # --- Crear attachment ---
         attachment = self.env['ir.attachment'].create({
             'name': 'proveedores_bice.csv',
             'type': 'binary',
             'datas': base64.b64encode(csv_content.encode('utf-8')),
+            'mimetype': 'text/csv',
             'res_model': 'account.batch.payment',
             'res_id': self.batch_id.id,
-            'mimetype': 'text/csv',
         })
 
-        # Publicar en el chatter
+        # Mensaje en el chatter
         self.batch_id.message_post(
-            body="Archivo BICE Proveedores generado.",
-            attachment_ids=[attachment.id]
+            body="Archivo BICE Proveedores generado y adjuntado.",
+            attachment_ids=[attachment.id],
         )
 
-        # Redirigir al lote de pagos
+        # Volver al lote
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'account.batch.payment',
