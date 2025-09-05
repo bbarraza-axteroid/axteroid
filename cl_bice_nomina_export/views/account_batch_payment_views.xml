@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_batch_payment_form_bice" model="ir.ui.view">
         <field name="name">account.batch.payment.form.bice</field>
@@ -8,8 +7,9 @@
             <xpath expr="//header" position="inside">
                 <button string="Exportar BICE Proveedores"
                         type="action"
-                        name="%(action_bice_export_wizard)d"
-                        class="oe_highlight"/>
+                        name="%(cl_bice_nomina_export.action_bice_export_wizard)d"
+                        class="oe_highlight"
+                        invisible="payment_type != 'outbound'"/>
             </xpath>
         </field>
     </record>
