@@ -5,12 +5,13 @@
     "author": "ChatGPT",
     "website": "",
     "license": "LGPL-3",
-    "depends": ["account"],
+    "depends": ["account", "account_batch_payment"],
     "data": [
         "security/ir.model.access.csv",
-        "views/res_bank_views.xml",
+        "views/res_bank_views.xml",                # si no lo usas, puedes quitar esta línea
         "views/account_batch_payment_views.xml",
-        "wizard/bice_export_wizard_views.xml",   # <- agregado para el wizard
+        "wizard/bice_export_wizard_views.xml"      # <- tu manifest ya lo apunta así
     ],
     "application": False,
+    "installable": True,
 }
