@@ -7,7 +7,7 @@
     'depends': ['account_batch_payment'],
     'data': [
         'security/ir.model.access.csv',
-        'views/account_batch_payment_views.xml',
+        'wizard/bice_export_wizard_views.xml',
         'views/bice_export_wizard_views.xml',
     ],
     'installable': True,
