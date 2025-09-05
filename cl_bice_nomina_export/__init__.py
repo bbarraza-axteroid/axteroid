@@ -1,2 +1,1 @@
-from . import models
-from . import wizard
+from . import bice_export_wizard
