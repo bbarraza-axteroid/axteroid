@@ -12,12 +12,13 @@ from ast import literal_eval
 
 class BukIntegrationWizard(models.Model):
     _name = 'buk.integration.wizard'
+    _description = 'Buk Integration Wizard'
 
     month = fields.Selection([("1", 'Enero'), ("2", 'Febrero'), ("3", 'Marzo'), ("4", 'Abril'),
                               ("5", 'Mayo'), ("6", 'Junio'), ("7", 'Julio'), ("8", 'Agosto'),
                               ("9", 'Septiembre'), ("10", 'Octubre'), ("11", 'Noviembre'), ("12", 'Diciembre'), ],
                              string='Mes', default=str(datetime.now().month))
-    year = fields.Integer(min="2000", max="2100", string='Año', default=datetime.now().year)
+    year = fields.Integer(string='Año', default=datetime.now().year)
     move_id = fields.Many2one('account.move', string="Asiento")
     # Flag para mostrar mensaje de sobreescribir, depende de este campo que se vea el mensaje
     moves_found = fields.Boolean(default=False, string="Asientos encontrados")
@@ -179,7 +180,7 @@ class BukIntegrationWizard(models.Model):
                                 acc_error_log.append('<ul>%s - %s</ul>' % (line['cuenta'], line['nombre_cuenta']))
                         else:
                             aaa = self.env['account.analytic.account'].search([('buk_code', '=', line['cenco'])], limit=1)
-                            aat = self.env['account.analytic.tag'].search([('buk_code', '=', line['cenco']), ('active_analytic_distribution', '=', True)], limit=1)
+                            aat = self.env['account.analytic.plan'].search([('buk_code', '=', line['cenco']), ('active_analytic_distribution', '=', True)], limit=1)
 
                             # Validación para que filtre etiquetas contables también
                             if not aaa and line['cenco'] != "" and not aat:
