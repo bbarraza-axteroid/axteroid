@@ -20,7 +20,7 @@
         <footer>
           <button name="action_generate"
                   type="object"
-                  string="Generar Archivo"
+                  string="Generar_Archivo"
                   class="btn-primary"/>
           <button special="cancel" string="Cancelar"/>
         </footer>
