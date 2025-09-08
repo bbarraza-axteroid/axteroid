@@ -95,7 +95,7 @@ class AccountBatchPayment(models.Model):
         email = (partner.email or "").strip()
 
         # ------------- LAYOUT CSV (sin encabezado) ----------------
-        # OJO: Este es un ejemplo base (11 columnas). Ajusta el orden si tu PDF lo exige distinto.
+        # OJO: Este es un ejemplo base (11 columnas). Ajusta el orden si tu archivo lo exige distinto.
         row = [
             rut,                # 1 RUT Proveedor
             name,               # 2 Nombre Proveedor
