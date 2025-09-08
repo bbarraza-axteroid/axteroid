@@ -6,7 +6,7 @@
         Servicios y vistas para buscar datos desde el servicio ‘BUK’.""",
 
     'version': '1.0',
-    'author': 'Open Solutions',
+    'author': 'Open Solutions BBL',
     'description': """
         Servicios y vistas para buscar datos desde el servicio ‘BUK’.
      """,
