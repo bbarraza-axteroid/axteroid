@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'Exportación de nómina proveedores Banco BICE desde pagos por lote',
     'category': 'Accounting',
-    'author': 'Branco Barraza',
+    'author': 'Branco_Barraza',
     'depends': ['account_batch_payment'],
     'data': [
         'security/ir.model.access.csv',
